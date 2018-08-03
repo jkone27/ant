@@ -1,7 +1,7 @@
 # ant
 A repository with helper classes and methods for aspnet webapi tests (System.Net.Http : ApiController) for now .net 4.5
 
-![ant](https://www.raw.githubusercontent.com/jkone27/master/ant/Pics/ant-gamillian.png)
+![ant](https://raw.githubusercontent.com/jkone27/ant/master/Pics/ant-gammillian.png)
 
 
 
