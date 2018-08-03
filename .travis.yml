@@ -1,0 +1,12 @@
+language: csharp
+solution: Ant.sln
+mono: latest
+sudo: required
+branches:
+  only:
+    - master
+script:
+  - nuget restore Ant.sln
+  - nuget install xunit.runners -Version 1.9.2 -OutputDirectory testrunner
+  - msbuild /p:Configuration=Release Ant.sln
+  - mono ./testrunner/xunit.runners.*/tools/xunit.console.clr4.exe ./AntNet45Tests/bin/Release/AntNet45Tests.dll
