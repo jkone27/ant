@@ -24,6 +24,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="./bin/Release/AntNet45.dll" target="lib/net542" />
+    <file src="./bin/Release/AntNet45.dll" target="lib/net452" />
   </files>
 </package>
