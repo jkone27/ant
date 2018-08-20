@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using AntNet45;
@@ -7,7 +6,6 @@ using AntNet45Tests.Controller;
 using AntNet45Tests.Helpers;
 using Moq;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace AntNet45Tests
 {

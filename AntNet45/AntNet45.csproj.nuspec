@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Antenna</id>
+    <version>1.0.0</version>
+    <title>Antenna</title>
+    <authors>jkone27</authors>
+    <owners>no-company</owners>
+    <description>Helper classes and methods for aspnet webapi tests (System.Net.Http : ApiController) for now .net 4.5</description>
+    <licenseUrl>https://github.com/jkone27/ant/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/jkone27/ant</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <releaseNotes>Initial release.</releaseNotes>
+    <copyright>MIT Licence</copyright>
+    <tags>WebApi AspNet Tests HttpServer Integration</tags>
+    <iconUrl>https://raw.githubusercontent.com/jkone27/ant/master/Pics/ant-gammillian.png</iconUrl>
+    <dependencies>
+      <dependency id="CommonServiceLocator" version="1.3"/>
+      <dependency id="Microsoft.AspNet.WebApi.Client" version="5.2.3"/>
+      <dependency id="Microsoft.AspNet.WebApi.Core" version="5.2.3" />
+      <dependency id="Newtonsoft.Json" version="6.0.4" />
+      <dependency id="Unity" version="4.0.1" />
+      <dependency id="Unity.WebAPI" version="5.2.3" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="./bin/Release/AntNet45.dll" target="lib/net542" />
+  </files>
+</package>

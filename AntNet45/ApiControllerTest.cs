@@ -20,9 +20,9 @@ namespace AntNet45
         private readonly IEnumerable<DelegatingHandler> handlers;
         private static Action<HttpConfiguration> Noop => _ => { };
 
-        private ApiControllerTest(T controller, 
-            IEnumerable<DelegatingHandler> handlers, 
-            IEnumerable<IFilter> filters, 
+        private ApiControllerTest(T controller,
+            IEnumerable<DelegatingHandler> handlers,
+            IEnumerable<IFilter> filters,
             Action<HttpConfiguration> httpConfigurationAction)
         {
             this.controller = controller;
@@ -32,17 +32,17 @@ namespace AntNet45
         }
 
         public static ApiControllerTest<T> Get(
-            T controller, IEnumerable<DelegatingHandler> handlers = null, 
-            IEnumerable<IFilter> filters = null, 
+            T controller, IEnumerable<DelegatingHandler> handlers = null,
+            IEnumerable<IFilter> filters = null,
             Action<HttpConfiguration> httpConfigurationAction = null)
         {
-            var filterCollection = filters ?? new IFilter[]{};
+            var filterCollection = filters ?? new IFilter[] { };
             var customConfiguration = httpConfigurationAction ?? Noop;
-            var httpMessageHandlers = handlers ?? new DelegatingHandler[]{};
+            var httpMessageHandlers = handlers ?? new DelegatingHandler[] { };
             return new ApiControllerTest<T>(controller, httpMessageHandlers, filterCollection, customConfiguration);
         }
 
-        private HttpServer GetInMemoryHttpServer() 
+        private HttpServer GetInMemoryHttpServer()
         {
             var container = new UnityContainer();
             container.RegisterInstance(controller);
@@ -73,18 +73,24 @@ namespace AntNet45
         }
 
         public async Task<TResult> HttpRequest<TResult>(
-            HttpMethod method, 
-            string requestUri, 
-            Expression<Func<HttpResponseMessage,TResult>> requestFunction) 
+           HttpMethod method,
+           string requestUri,
+           Expression<Func<HttpResponseMessage, TResult>> responseFunction,
+           Action<HttpRequestMessage> customRequestAction = null
+           )
         {
             using (var server = GetInMemoryHttpServer())
             using (var client = new HttpMessageInvoker(server))
             using (var request = new HttpRequestMessage(method, requestUri))
-            using (var response = await client.SendAsync(request, CancellationToken.None))
             {
-                return requestFunction.Compile()(response);
+                var action = customRequestAction ?? (r => { });
+                action(request);
+                using (var response = await client.SendAsync(request, CancellationToken.None))
+                {
+                    return responseFunction.Compile()(response);
+                }
             }
         }
-
     }
+
 }

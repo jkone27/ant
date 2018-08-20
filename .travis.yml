@@ -8,3 +8,5 @@ branches:
 script:
   - nuget restore Ant.sln
   - msbuild /p:Configuration=Release Ant.sln
+  - mono ./packages/xunit.runner.console*/tools/net452/xunit.console.exe ./AntNet45Tests/bin/Release/*Tests.dll
+  - nuget pack ./AntNet45/*.nuspec
