@@ -19,6 +19,35 @@ HTTP REQUEST
   
 anything can be ant'd.
 
+## Basic Usage
+
+```cs
+class Program
+{
+    static void Main(string[] args)
+    {
+        //should be awaited, just for test
+        var statusCode = new TestController().Test()
+            .GetAsync("http://localhost/api/test", r => r.StatusCode).Result;
+
+        //prints OK
+        Console.WriteLine(statusCode);
+        Task.Delay(TimeSpan.FromSeconds(5)).Wait();
+    }
+}
+
+[RoutePrefix("api/test")]
+public class TestController : ApiController
+{
+    [Route("")]
+    [HttpGet]
+    public IHttpActionResult Get()
+    {
+        return Ok();
+    }
+}
+```
+
 ### Status
 [![build status](https://img.shields.io/travis/jkone27/ant.svg)](https://travis-ci.org/jkone27/ant)
 
