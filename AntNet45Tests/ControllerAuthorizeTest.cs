@@ -29,8 +29,7 @@ namespace AntNet45Tests
             var managementService = new Mock<ISomeDependency>();
             var controller = GetPnrController(managementService);
             var resultStatus = await controller.Test()
-                .HttpRequest(HttpMethod.Get, TestApiRoute,
-                    r => r.StatusCode);
+                .GetAsync(TestApiRoute, r => r.StatusCode);
             Assert.True(resultStatus == HttpStatusCode.Forbidden);
         }
 
@@ -41,8 +40,7 @@ namespace AntNet45Tests
             var controller = GetPnrController(managementService);
             var resultStatus = await controller
                 .Test(filters: AssignClaimsAuthenticationFilterAttribute.Parse(ReadRole))
-                .HttpRequest(HttpMethod.Get, TestApiRoute,
-                    r => r.StatusCode);
+                .GetAsync(TestApiRoute, r => r.StatusCode);
             Assert.True(resultStatus == HttpStatusCode.OK);
         }
 
@@ -53,8 +51,7 @@ namespace AntNet45Tests
             var managementService = new Mock<ISomeDependency>();
             var controller = GetPnrController(managementService);
             var resultStatus = await controller.Test()
-                .HttpRequest(HttpMethod.Post, TestApiRoute,
-                    r => r.StatusCode);
+                .PostAsync(TestApiRoute, r => r.StatusCode);
             Assert.True(resultStatus == HttpStatusCode.Forbidden);
         }
 
