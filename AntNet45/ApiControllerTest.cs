@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Net.Http;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -32,7 +33,8 @@ namespace AntNet45
         }
 
         public static ApiControllerTest<T> Get(
-            T controller, IEnumerable<DelegatingHandler> handlers = null,
+            T controller, 
+            IEnumerable<DelegatingHandler> handlers = null,
             IEnumerable<IFilter> filters = null,
             Action<HttpConfiguration> httpConfigurationAction = null)
         {
@@ -91,6 +93,29 @@ namespace AntNet45
                 }
             }
         }
-    }
 
+        public async Task<TResult> BuildHttpRequest<TResult>(
+            Expression<Func<IHttpActionResult>> invokedAction,
+            Expression<Func<HttpResponseMessage, TResult>> responseFunction,
+            Action<HttpRequestMessage> customRequestAction = null,
+            String baseUri = "http://localhost"
+        )
+        {
+            var (method, requestUri) = invokedAction.DeriveRequestUriAndHttpMethod<T>(baseUri);
+            using (var server = GetInMemoryHttpServer())
+            using (var client = new HttpMessageInvoker(server))
+            {
+                using (var request = new HttpRequestMessage(method, requestUri))
+                {
+                    var action = customRequestAction ?? (r => { });
+                    action(request);
+                    using (var response = await client.SendAsync(request, CancellationToken.None))
+                    {
+                        return responseFunction.Compile()(response);
+                    }
+                }
+            }
+        }
+
+    }
 }

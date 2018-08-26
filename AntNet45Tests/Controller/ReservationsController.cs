@@ -14,8 +14,25 @@ namespace AntNet45Tests.Controller
         }
         
         [Route("")]
-        [HttpGet]
         public IHttpActionResult Get()
+        {
+            someDependency.Do();
+            return Ok();
+        }
+
+        
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("v2/complex/all")]
+        public IHttpActionResult GetMoreComplexRoute()
+        {
+            someDependency.Do();
+            return Ok();
+        }
+
+        [AllowAnonymous]
+        [Route("v2/complex/another")]
+        public IHttpActionResult OptionsMoreComplexRoute()
         {
             someDependency.Do();
             return Ok();

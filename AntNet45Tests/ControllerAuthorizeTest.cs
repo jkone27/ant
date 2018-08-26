@@ -69,5 +69,27 @@ namespace AntNet45Tests
             Assert.True(resultStatus == HttpStatusCode.OK);
 
         }
+
+        [Fact]
+        public async Task Get_ComplexRouting_DeriveVerbFromAttributes()
+        {
+            var managementService = new Mock<ISomeDependency>();
+            var controller = GetPnrController(managementService);
+            var resultStatus = await controller.Test()
+                .BuildHttpRequest(() => controller.GetMoreComplexRoute(), r => r.StatusCode);
+            Assert.True(resultStatus == HttpStatusCode.OK);
+
+        }
+
+        [Fact]
+        public async Task Get_ComplexRouting_DeriveVerbFromName()
+        {
+            var managementService = new Mock<ISomeDependency>();
+            var controller = GetPnrController(managementService);
+            var resultStatus = await controller.Test()
+                .BuildHttpRequest(() => controller.OptionsMoreComplexRoute(), r => r.StatusCode);
+            Assert.True(resultStatus == HttpStatusCode.OK);
+
+        }
     }
 }
