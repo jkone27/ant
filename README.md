@@ -46,7 +46,7 @@ Let's make a call to the GET route, specifying the verb and the complete http ro
 
 ```cs
 var testController = new TestController();
-var responseStatus = await new TestController().Test().HttpRequest(HttpMethod.Get, TestApiRoute, r => r.StatusCode);
+var responseStatus = await new TestController().Test().HttpRequest(HttpMethod.Get, "http://localhost/api/test", r => r.StatusCode);
 Assert.True(resultStatus == HttpStatusCode.OK);
 ```
 
