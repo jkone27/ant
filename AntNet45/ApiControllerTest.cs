@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Web.Http.Filters;
 using Microsoft.Practices.Unity;
+using Unity;
 using Unity.WebApi;
 
 namespace AntNet45
@@ -101,11 +102,11 @@ namespace AntNet45
             String baseUri = "http://localhost"
         )
         {
-            var (method, requestUri) = invokedAction.DeriveRequestUriAndHttpMethod<T>(baseUri);
+            var derivedRequest = invokedAction.DeriveRequestUriAndHttpMethod<T>(baseUri);
             using (var server = GetInMemoryHttpServer())
             using (var client = new HttpMessageInvoker(server))
             {
-                using (var request = new HttpRequestMessage(method, requestUri))
+                using (var request = derivedRequest)
                 {
                     var action = customRequestAction ?? (r => { });
                     action(request);

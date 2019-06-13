@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Linq.Expressions;
-using System.Net.Http;
 using System.Reflection;
 using System.Web.Http;
+using System.Net.Http;
 
 namespace AntNet45
 {
     public static class ExpressionExtensions
     {
 
-        public static (HttpMethod Method, string RequestUri) DeriveRequestUriAndHttpMethod<T>(
+        public static HttpRequestMessage DeriveRequestUriAndHttpMethod<T>(
             this Expression<Func<IHttpActionResult>> invokedAction, string baseUri)
         where T : ApiController
         {
             var actionMethod = invokedAction.GetActionMethodInfo<T>();
             var method = actionMethod.GetHttpMethod();
             var requestUri = actionMethod.RequestUri<T>(baseUri);
-            return (method, requestUri);
+            return new HttpRequestMessage(method, requestUri);
         }
 
         public static MemberInfo GetActionMethodInfo<T>(

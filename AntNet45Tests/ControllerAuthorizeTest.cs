@@ -62,9 +62,8 @@ namespace AntNet45Tests
             var controller = GetPnrController(managementService);
             var resultStatus = await controller
                 .Test(ClaimsHandler.Parse(ReadRole, WriteRole))
-                .HttpRequest(HttpMethod.Get, TestApiRoute, r => r.StatusCode);
+                .HttpRequest(HttpMethod.Post, TestApiRoute, r => r.StatusCode);
             Assert.True(resultStatus == HttpStatusCode.OK);
-
         }
 
         [Fact]
